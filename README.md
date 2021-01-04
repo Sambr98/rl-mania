@@ -1,1 +1,3 @@
 # rl-mania
+
+Just me, learning and implementing some RL algorithms...

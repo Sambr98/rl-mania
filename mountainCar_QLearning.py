@@ -27,6 +27,8 @@ def QLearning(episodes, epsilon, alpha, discount):
 	rewards = []
 	meanRewards = []
 
+	decay = epsilon / episodes
+
 	for i in range(episodes):
 		done = False
 		state = discretizeState(env.reset())
@@ -44,6 +46,9 @@ def QLearning(episodes, epsilon, alpha, discount):
 
 			state = newState
 			inReward += reward
+
+		if epsilon > 0:
+			epsilon -= decay
 
 		rewards.append(inReward)
 		if (i % 100 == 0):
@@ -67,9 +72,12 @@ def quickDemo(episodes, Q):
 
 			state = newState
 
-Q, rewards = QLearning(5000, 0.05, 0.2, 0.9)
+Q, rewards = QLearning(5000, 0.5, 0.2, 0.9)
 
-plt.plot(rewards)
+plt.plot(100*(np.arange(len(rewards))), rewards)
+plt.xlabel('Episode')
+plt.ylabel('Reward')
+plt.title('Average Reward per 100 Episodes')
 plt.savefig('tmp_plots/mountainCar_rewards.png')
 
-quickDemo(10, Q)
+quickDemo(5, Q)
